@@ -5,6 +5,7 @@
 A simple web scraper for gathering data from subreddit's.
 
 CURRENTLY BEING WORKED ON
+
 Details:
 
 This initially worked using selenium to load Reddits dynamic pages, and it still does, however as time goes on if stb is very large, meaning you wish to grab more data, pages become too large to really work with, leading to chrome/firefox to become unstable due to the massive amounts of memory they take up and more page content for them to parse, this isn't a big deal on a modern desktop, however the goal of this project was to use raspberry pi's to scrap data and their hardware constraints require an alternative method. To resolve this I will be changing how some of this works to not rely on chrome/firefox as much. Either pretending to be a mobile device or old.reddit will be used so page content is limited, allowing for lower performing systems such as a pi to not have application crashes.

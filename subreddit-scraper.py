@@ -62,12 +62,11 @@ def scroll_to_bottom(count: int, driver: webdriver):
                 used_memory = get_memory_stats()
                 if used_memory > MEMORY_LIMIT:
                     break
-        try:        
+        try:
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(5)
         except Exception:
-            #ignore script timeout
-            pass
+            print("Script STB timed out")
         percentage = (num/count) * 100
         print("Percent Complete: {0}%".format(round(percentage, 2)))
 

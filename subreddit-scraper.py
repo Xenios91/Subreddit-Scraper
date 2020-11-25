@@ -65,7 +65,7 @@ def scroll_to_bottom(count: int, driver: webdriver):
         try:        
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(5)
-        except e:
+        except Exception:
             #ignore script timeout
             pass
         percentage = (num/count) * 100
@@ -139,7 +139,7 @@ def main():
         write_to_file(response, args.output)
         retrieve_all_post_urls(args.output)
         print("Done scraping {0}".format(args.url))
-    except e:
+    except Exception:
         print("An error has occured")
     finally:
         #close all browser windows gracefully and end selenium

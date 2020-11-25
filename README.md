@@ -7,4 +7,4 @@ A simple web scraper for gathering data from subreddit's.
 # CURRENTLY BEING WORKED ON
 Details:
 
-It initially worked using selenium to load Reddits dynamic pages, however as time goes on, pages become too large to really work with and it causes chrome or firefox depending on the driver being used to become unstable. To resolve this I will be changing how some of this works to not rely on chrome/firefox as much. A more static approach will be utilized to obtain subreddit data.
+This initially worked using selenium to load Reddits dynamic pages, and it still does, however as time goes on if stb is very large, meaning you wish to grab more data, pages become too large to really work with and it causes chrome or firefox depending on the driver being used to become unstable due to the massive amounts of memory they take up and more page content for them to parse. To resolve this I will be changing how some of this works to not rely on chrome/firefox as much. A more static approach will be utilized to obtain subreddit data.

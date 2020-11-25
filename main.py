@@ -110,7 +110,7 @@ def get_args() -> list:
 
 
 def main():
-
+    print(main_message)
     args = get_args()
     driver = get_webdriver()
     response = get_html(driver, args.url, args.stb)

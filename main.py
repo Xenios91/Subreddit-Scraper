@@ -12,6 +12,19 @@ from selenium.common.exceptions import TimeoutException
 import psutil
 import gc
 
+main_message = """
+ _____       _                  _     _ _ _          _____
+/  ___|     | |                | |   | (_) |        /  ___|
+\ `--. _   _| |__  _ __ ___  __| | __| |_| |_ ______\ `--.  ___ _ __ __ _ _ __   ___ _ __
+ `--. \ | | | '_ \| '__/ _ \/ _` |/ _` | | __|______|`--. \/ __| '__/ _` | '_ \ / _ \ '__|
+/\__/ / |_| | |_) | | |  __/ (_| | (_| | | |_       /\__/ / (__| | | (_| | |_) |  __/ |
+\____/ \__,_|_.__/|_|  \___|\__,_|\__,_|_|\__|      \____/ \___|_|  \__,_| .__/ \___|_|
+                                                                         | |
+                                                                         |_|
+More info: https://github.com/Xenios91/Subreddit-Scraper
+"""
+
+
 # File extension to save all output as.
 FILE_EXTENSION = ".html"
 # Maximum memory limit before the scraper saves and shuts down.
@@ -97,6 +110,7 @@ def get_args() -> list:
 
 
 def main():
+
     args = get_args()
     driver = get_webdriver()
     response = get_html(driver, args.url, args.stb)

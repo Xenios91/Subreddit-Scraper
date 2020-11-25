@@ -133,12 +133,17 @@ def main():
     print(main_message)
     args = get_args()
     driver = get_webdriver()
-    print("Starting web scraping!")
-    response = get_html(driver, args.url, args.stb)
-    write_to_file(response, args.output)
-    retrieve_all_post_urls(args.output)
-    driver.quit()
-    print("Done scraping {0}".format(args.url))
+    
+    try:
+        print("Starting web scraping!")
+        response = get_html(driver, args.url, args.stb)
+        write_to_file(response, args.output)
+        retrieve_all_post_urls(args.output)
+        print("Done scraping {0}".format(args.url))
+    except:
+        print("An error has occured")
+    finally:
+        driver.quit()
 
 
 main()

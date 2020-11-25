@@ -1,2 +1,2 @@
-# Web-Scraper
-A simple web scraper for gathering data from Reddit for NLP.
+# Subreddit-Scraper
+A simple web scraper for gathering data from subreddit's for NLP.

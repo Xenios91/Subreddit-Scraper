@@ -137,6 +137,7 @@ def main():
     response = get_html(driver, args.url, args.stb)
     write_to_file(response, args.output)
     retrieve_all_post_urls(args.output)
+    driver.quit()
     print("Done scraping {0}".format(args.url))
 
 

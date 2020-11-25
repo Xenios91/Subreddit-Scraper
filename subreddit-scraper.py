@@ -52,7 +52,7 @@ def get_memory_stats() -> float:
 def scroll_to_bottom(count: int, driver: webdriver):
     percentage = 0.0
     for num in range(count):
-        if num % 2 == 0:
+        if num % 30 == 0:
             used_memory = get_memory_stats()
             if used_memory > MEMORY_LIMIT:
                 print("{0} OF SYSTEM MEMORY UTILIZED".format(

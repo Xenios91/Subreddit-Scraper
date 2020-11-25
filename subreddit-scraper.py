@@ -133,7 +133,6 @@ def main():
     print(main_message)
     args = get_args()
     driver = get_webdriver()
-    
     try:
         print("Starting web scraping!")
         response = get_html(driver, args.url, args.stb)
@@ -143,6 +142,7 @@ def main():
     except:
         print("An error has occured")
     finally:
+        #close all browser windows gracefully and end selenium
         driver.quit()
 
 

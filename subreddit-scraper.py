@@ -31,8 +31,9 @@ MEMORY_LIMIT = 90
 def get_webdriver() -> str:
     print("Loading web driver", end="... ")
     options = get_selenium_options()
+    driver_path = r"{}".format(os.getcwd() + "/geckodriver")
     driver = webdriver.Firefox(
-        options=options, executable_path=r'/home/xenios/repo/Web-Scraper/geckodriver')
+        options=options, executable_path=driver_path)
     print("Web driver loaded!")
     return driver
 

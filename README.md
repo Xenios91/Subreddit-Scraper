@@ -8,4 +8,4 @@ CURRENTLY BEING WORKED ON
 
 Details:
 
-Currently working on this, currently it only creates a text file of all post urls from a subreddit.
+Currently working on this, currently it only creates a text file of all post urls from a subreddit, the next step will be to extract all comments from post.

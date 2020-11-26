@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import argparse
 import requests
+import time
 
 main_message = """
  _____       _                  _     _ _ _          _____
@@ -38,6 +39,7 @@ def traverse_pages(url: str, page_count: int, file_name: str):
             html = response.text
             retrieve_all_post_urls(url, html, file_name)
             url = get_next_url(html)
+            time.sleep(5) #sleep 5 seconds to help prevent throttling.
             if url == "END":
                 return
         except Exception as e:

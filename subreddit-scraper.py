@@ -52,7 +52,7 @@ def traverse_pages(url: str, page_count: int, file_name: str):
 def get_args() -> list:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-url", type=str, help="The subreddit to scrap. Example: -url news", required=True)
+        "-url", type=str, help="The subreddit to scrap. Example: -url https://www.reddit.com/r/ProgrammerHumor/", required=True)
     parser.add_argument(
         "-output", type=str, help="The filename to save the source to. Default is reddit_scrap_urls. Example: -output reddit_data", required=False, default="reddit_scrap_urls")
     parser.add_argument(

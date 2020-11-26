@@ -1,6 +1,4 @@
-import os
 from bs4 import BeautifulSoup
-import time
 import argparse
 import requests
 

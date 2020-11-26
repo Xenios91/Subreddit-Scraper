@@ -1,15 +1,8 @@
 import os
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 import time
 import argparse
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-import psutil
-import gc
+import requests
 
 main_message = """
  _____       _                  _     _ _ _          _____
@@ -23,76 +16,37 @@ main_message = """
 More info: https://github.com/Xenios91/Subreddit-Scraper
 """
 
-# Maximum memory limit before the scraper saves and shuts down.
-MEMORY_LIMIT = 90
+
+def get_next_url(html: str) -> str:
+    soup = BeautifulSoup(html, "lxml")
+    elements = soup.findAll("span", {"class": "next-button"})
+    for element in elements:
+        contents = element.contents[0]
+        if "next" in contents.next:
+            attrs = contents.attrs
+            href = attrs.get("href")
+            return href
+    return "END"
 
 
-def get_webdriver() -> str:
-    print("Loading web driver", end="... ")
-    options = get_selenium_options()
-    driver_path = r"{}".format(os.getcwd() + "/geckodriver")
-    driver = webdriver.Firefox(
-        options=options, executable_path=driver_path)
-    print("Web driver loaded!")
-    return driver
-
-
-def get_selenium_options() -> Options:
-    options = Options()
-    options.headless = True
-    return options
-
-
-def get_memory_stats() -> float:
-    memory = psutil.virtual_memory()
-    used_memory = memory.percent
-    return used_memory
-
-
-def scroll_to_bottom(count: int, driver: webdriver):
-    percentage = 0.0
-    for num in range(count):
-        if num % 30 == 0:
-            used_memory = get_memory_stats()
-            if used_memory > MEMORY_LIMIT:
-                print("{0} OF SYSTEM MEMORY UTILIZED".format(
-                    used_memory), end="... ")
-                print("RUNNING GC TO ATTEMPT TO FREE MEMORY")
-                gc.collect()
-                used_memory = get_memory_stats()
-                if used_memory > MEMORY_LIMIT:
-                    break
+def traverse_pages(url: str, page_count: int, file_name: str):
+    traverse = True
+    counter = 1
+    while traverse:
         try:
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(5)
-        except Exception:
-            print("Script STB timed out")
-        percentage = (num/count) * 100
-        print("Percent Complete: {0}%".format(round(percentage, 2)))
-
-
-def get_html(driver: webdriver, url: str, stb: int) -> str:
-    driver.get(url)
-    try:
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.TAG_NAME, 'title')))
-    except TimeoutException:
-        print("PAGE TIMED OUT!")
-        exit(1)
-    scroll_to_bottom(stb, driver)
-    html = driver.page_source
-    return html
-
-
-def write_to_file(data: str, file_name: str):
-    try:
-        print("Writing all scraped data to file", end="... ")
-        file = open(file_name, "w")
-        file.write(data)
-        file.close()
-        print("Data written!")
-    except Exception as e:
-        print(e)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+            response = requests.get(url, headers=headers)
+            html = response.text
+            retrieve_all_post_urls(url, html, file_name)
+            url = get_next_url(html)
+            if url == "END":
+                return
+        except Exception as e:
+            print(e)
+        counter = counter + 1
+        if counter > page_count and page_count != -1:
+            traverse = False
 
 
 def get_args() -> list:
@@ -100,49 +54,43 @@ def get_args() -> list:
     parser.add_argument(
         "-url", type=str, help="The subreddit to scrap. Example: -url news", required=True)
     parser.add_argument(
-        "-output", type=str, help="The filename to save the source to. Default is reddit_scrap.html. Example: -output reddit_data", required=False)
+        "-output", type=str, help="The filename to save the source to. Default is reddit_scrap_urls. Example: -output reddit_data", required=False, default="reddit_scrap_urls")
     parser.add_argument(
-        "-stb", type=int, help="The amount of times to scroll to the bottom of the subreddit to collect older results dynamically, the default is 75. Example -stb 200", required=False, default=75)
+        "-pages", type=int, help="The number of pages to traverse, if -1 is used all pages will be traversed, the default is 10. Example -pages 200", required=False, default=10)
     args = parser.parse_args()
     return args
 
 
-def retrieve_all_post_urls(file_name: str):
-    print("Finding all post urls")
-    with open(file_name, "r") as file:
-        url_file_name = "{0}{1}".format(file_name, "_urls")
-        url_file = open(url_file_name, "w")
+def retrieve_all_post_urls(url: str, html: str, file_name: str):
+    file_name = "{0}{1}".format(file_name, "_urls")
+    with open(file_name, "a") as file:
+        soup = BeautifulSoup(html, 'lxml')
+        links = soup.findAll("a", {"class": "comments"})
+        for link in links:
+            href = link.attrs.get("href")
+            url_to_write = "{0}{1}".format(href, "\n")
+            file.write(url_to_write)
 
-        lines = "".join(file.readlines())
-        soup = BeautifulSoup(lines, 'lxml')
-        links = soup.findAll("a")
-        percentage = 0.0
-        amount_of_links = len(links)
-        for counter, link in enumerate(links):
-            url = link.attrs.get("href")
-            if url and "https://www.reddit.com/r/politics/comments/" in url:
-                url = "{0}{1}".format(url, "\n")
-                url_file.write(url)
-            percentage = (counter/amount_of_links) * 100
-            print("Finding post {0}% complete".format(round(percentage, 2)))
-    print("All post urls found!")
+
+def update_url(url: str) -> str:
+    url = url.replace("www", "old")
+    return url
 
 
 def main():
     print(main_message)
     args = get_args()
-    driver = get_webdriver()
+    output_file = args.output
+    url = args.url
+    pages = args.pages
+
     try:
+        url = update_url(args.url)
         print("Starting web scraping!")
-        response = get_html(driver, args.url, args.stb)
-        write_to_file(response, args.output)
-        retrieve_all_post_urls(args.output)
-        print("Done scraping {0}".format(args.url))
+        traverse_pages(url, pages, output_file)
+        print("Done scraping {0}".format(url))
     except Exception:
         print("An error has occured")
-    finally:
-        #close all browser windows gracefully and end selenium
-        driver.quit()
 
 
 main()

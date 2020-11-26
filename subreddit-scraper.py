@@ -69,8 +69,9 @@ def retrieve_all_post_urls(url: str, html: str, file_name: str):
         links = soup.findAll("a", {"class": "comments"})
         for link in links:
             href = link.attrs.get("href")
-            url_to_write = "{0}{1}".format(href, "\n")
-            file.write(url_to_write)
+            if url in href:
+                url_to_write = "{0}{1}".format(href, "\n")
+                file.write(url_to_write)
 
 
 def update_url(url: str) -> str:

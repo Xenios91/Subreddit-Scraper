@@ -32,6 +32,7 @@ def traverse_pages(url: str, page_count: int, file_name: str):
     traverse = True
     counter = 1
     while traverse:
+        print("Evaluating page {0}".format(counter), end='\r')
         try:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}

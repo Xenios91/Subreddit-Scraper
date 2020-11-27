@@ -8,8 +8,8 @@ CURRENTLY BEING WORKED ON
 
 Details:
 
-Currently working on this, currently it only creates a csv file of all post urls from a subreddit and additional data about them. The next step will be to extract all comments from post.
+Currently working on this, currently it only creates a csv file of all post urls from a subreddit and additional data about them. The next step will be to extract all comments from post for NLP.
 
-TLDR; I just switched this to use PRAW, it originally was created using beautiful soup and selenium.
+I just switched this to use PRAW, it originally was created using beautiful soup and selenium.
 
 Why is this a thing? Because machine learning and data analysis is fun.

@@ -8,6 +8,8 @@ CURRENTLY BEING WORKED ON
 
 Details:
 
-Currently working on this, currently it only creates a text file of all post urls from a subreddit, the next step will be to extract all comments from post.
+Currently working on this, currently it only creates a csv file of all post urls from a subreddit and additional data about them. the next step will be to extract all comments from post.
 
-The new goal is to switch this to utilize the reddit api.
+TLDR; I just switched this to use PRAW, it originally was created using beautiful soup and selenium.
+
+Why is this a thing? Because machine learning and data analysis is fun.

@@ -33,6 +33,7 @@ def change_file_name(filename: str, subreddit: str) -> str:
     return filename
 
 def main():
+    print(main_logo)
     args = get_args()
     file_name = change_file_name(args.output, args.subreddit)
     reddit_url_scraper = subreddit_utils.SubredditURLScraper(

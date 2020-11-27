@@ -8,7 +8,7 @@ CURRENTLY BEING WORKED ON
 
 Details:
 
-Currently working on this, currently it only creates a csv file of all post urls from a subreddit and additional data about them. the next step will be to extract all comments from post.
+Currently working on this, currently it only creates a csv file of all post urls from a subreddit and additional data about them. The next step will be to extract all comments from post.
 
 TLDR; I just switched this to use PRAW, it originally was created using beautiful soup and selenium.
 

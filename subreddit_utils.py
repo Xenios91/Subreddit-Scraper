@@ -7,12 +7,12 @@ class SubredditURLScraper():
     post_list = []
 
     def __init__(self, client_id, client_secret):
-        #[Being used to pass client_id and client_secret to the object for using PRAW.]
+        """Being used to pass client_id and client_secret to the object for using PRAW.
 
-        # Args:
-        #    client_id ([str]): [Your client id supplied by Reddit.]
-        #    client_secret ([str]): [Your client secret supplied by Reddit.]
-
+        Args:
+            client_id (str): Your client id supplied by Reddit.
+            client_secret (str): Your client secret supplied by Reddit.
+        """
         self.reddit = praw.Reddit(client_id=client_id, client_secret=client_secret,
                                   user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36')
         self.reddit.read_only = True
